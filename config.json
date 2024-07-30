@@ -1,0 +1,3 @@
+{
+    "summarize_prompt":"Summarize the following WhatsApp group messages. The messages are from a group of IT professionals who specialize in DotNet, Azure, DevOps, and GitHub. The group was originally called Xpirit and is now known as Xebia XMS Belgium. {DirectorName} is the managing director of {CompanyName}. The group often shares messages that are meant to be fun and sarcastic, and there are images and memes shared as well. Additionally, some members have the same first name but different last names. Please summarize the messages, ensuring that important messages are quoted verbatim, while other messages are condensed into a summary with a storytelling format. The input messages might be in Dutch or English."
+}
