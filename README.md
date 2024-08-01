@@ -4,6 +4,8 @@ This project is designed to provide a comprehensive set of tools for text extrac
 
 ## Table of Contents
 
+## Table of Contents
+
 - [Introduction](#introduction)
   - [Key Features](#key-features)
     - [Text Extraction from Images](#text-extraction-from-images)
@@ -26,8 +28,12 @@ This project is designed to provide a comprehensive set of tools for text extrac
   - [Markdown Rendering](#markdown-rendering)
   - [Natural Language Processing](#natural-language-processing)
   - [File Management](#file-management)
+- [Dependencies](#dependencies)
 - [Contributing](#contributing)
 - [License](#license)
+- [Acknowledgements](#acknowledgements)
+- [Disclaimer](#disclaimer)
+- [Contact](#contact)
 
 ## Introduction
 
@@ -174,11 +180,11 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-### Acknowledgements
+## Acknowledgements
 Thanks to the developers of the libraries and APIs used in this project for their excellent work.
 Thanks to Xebia XMS Belgium that allows me to figure this out and sponsers me in the usage of OpenAI an Azure OpenAI
 
-### Disclaimer
+## Disclaimer
 
 The author of this project is not responsible for any copyright material that is used or broken through the use of this software. All actions taken using this software are done at the user's own responsibility and accountability. Users must ensure that they have the legal right to use any content processed by this application. The author disclaims any liability for any damages or legal issues that may arise from the misuse of this software.
 
