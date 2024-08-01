@@ -4,8 +4,6 @@ This project is designed to provide a comprehensive set of tools for text extrac
 
 ## Table of Contents
 
-## Table of Contents
-
 - [Introduction](#introduction)
   - [Key Features](#key-features)
     - [Text Extraction from Images](#text-extraction-from-images)
