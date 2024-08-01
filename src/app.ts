@@ -10,6 +10,6 @@ configureDI(); // Configure the DI container
 
 
  const program: Program =    container.resolve(Program);
- program.main();
+ program.main().then(() => { console.log("finishing program main")});;
 
 

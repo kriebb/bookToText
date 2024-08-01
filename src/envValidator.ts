@@ -17,14 +17,5 @@ export class EnvValidator {
 
 
 const requiredEnvironmentVariables = [
-    'CHAT_GROUP_NAME',
     'OPENAI_API_KEY',
-    'EMAIL_RECEIPIANT',
-    'EMAIL_SENDER',
-    'MESSAGE_PROCESSING_STRATEGY',
-    'PHONE_NUMBERS_RECEIVERS',
-    'DIRECTOR_NAME',
-    'COMPANY_NAME',
-
-    'PHONE_NUMBER'
 ];

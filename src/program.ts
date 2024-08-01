@@ -1,23 +1,23 @@
 import { injectable } from 'tsyringe';
 import { EnvValidator } from './envValidator';
-import { EventHandlers } from './eventHandlers';
+import { Bootstrap as Bootstrap } from './bootStrap';
 import { Logger } from './logger';
 
 @injectable()
 export class Program
 {
-    constructor( private envValidator: EnvValidator, private logger: Logger, private eventHandlers:EventHandlers)
+    constructor( private envValidator: EnvValidator, private logger: Logger, private bootstrap:Bootstrap)
     {
 
     }
-    main = () => {
+    main = async ():Promise<void> => {
 
         
         this.logger.info(`Running under Node.js version: ${process.version}`);
 
 
         this.envValidator.validateEnvVariables();
-        this.eventHandlers.setup( );
+        return await this.bootstrap.boot( );
 
        
     }
