@@ -1,3 +1,25 @@
 {
-    "summarize_prompt":"Summarize the following WhatsApp group messages. The messages are from a group of IT professionals who specialize in DotNet, Azure, DevOps, and GitHub. The group was originally called Xpirit and is now known as Xebia XMS Belgium. {DirectorName} is the managing director of {CompanyName}. The group often shares messages that are meant to be fun and sarcastic, and there are images and memes shared as well. Additionally, some members have the same first name but different last names. Please summarize the messages, ensuring that important messages are quoted verbatim, while other messages are condensed into a summary with a storytelling format. The input messages might be in Dutch or English."
+    "outputBaseDir": "./output",
+    "outputAudioSubDirectory": "./output/fullfile/audio",
+    "concatenatedAudioFile": "enhanced.mp3",
+    "shouldMergeAudioFiles": true,
+    "shouldConvertMarkdownToAudio": true,
+    "outputRecognizedTextFile": "enhanced.md",
+    "shouldProcessImages": true,
+    "shouldProcessImagesWithTesseract": true,
+    "inputImagesDir": "./input/images",
+    "prompts": {
+        "enhanceText":{
+            "system":"You are reading a book where each section should be fluent for Text-To-Speech. Ensure sentences flow naturally with no lines in between and broken sentences. Because TTS will read everything on the page, do not include pagenumbers or specific legends or detailed publish information. Do not include summary of each page. If you do, ensure that is added in a fluent context and that the stuff is told naturally. Add context where necessary. At the end of each chatper, provide a summary, but only if you can detect the end of a chapter.",
+            "user": "The follwing is the content: \n\n"
+        },
+        "analyzeImage":{
+            "system":"You are reading a book where each page contains both text and images. You OCR the text on the page that is an image. When you detect an image, you add on the right location a description of the image and you add a placeholder for the image. To ensure you can OCR the page with good context, you will get the previous page as text. Ensure the formatting is taken over and you use advanced markdown features. Ensure you generate a title for that page. At the end of each page, you will make a very short summary of the page, so the reader knows what is important.",
+            "userpreviouspage": "The previous page said: "
+        } 
+
+
+    },
+    "OPENAI_MODEL": "gpt-4o"
 }
+

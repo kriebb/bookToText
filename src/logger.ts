@@ -10,7 +10,9 @@ export class Logger
     debug(message: string) {
         this.instance.debug(message);
     }
-
+    warn(message: string) {
+        this.instance.warn(message);
+    }
     info(message: string) {
         this.instance.info(message);
     }
