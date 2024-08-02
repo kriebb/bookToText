@@ -7,13 +7,22 @@ import { MESSAGES, MAX_OPENAI_MODEL_LENGTH, OPENAI_MODEL, HEADER_CONTENT_TYPE, T
 import { File } from '../fileSystem/models/File';
 import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs-extra';
+import { PathService } from '../fileSystem/PathService';
 @injectable()
 export class TextToSpeechProcessor {
+
     constructor(
         private logger: Logger,
         private openai: OpenAI,
-        private options: Options
+        private options: Options,
+        private pathService: PathService
     ) {}
+
+    async process() {
+        const inputFiles = await this.pathService.getAudioFiles();
+        const outputFile = this.pathService.getConcatenatedAudioFile();
+        await this.mergeAudioFiles(inputFiles, outputFile);    
+    }
 
     splitText = (text: string): string[] => {
         const maxLength = MAX_OPENAI_MODEL_LENGTH - MAX_TOKENS_BUFFER;

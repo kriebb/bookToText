@@ -49,7 +49,9 @@
             "skipFiles": [
                 "${workspaceFolder}\\node_modules\\**"
             ],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "stopOnEntry": true,
+
 
         },
         {
@@ -63,8 +65,18 @@
             "skipFiles": [
                 "${workspaceFolder}\\node_modules\\**"
             ],
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
 
+        },
+
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Process",
+            "processId": "${command:PickProcess}",
+            "skipFiles": [
+                "${workspaceFolder}/node_modules/**"
+            ]
         }
     ]
 }

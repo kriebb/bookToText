@@ -28,28 +28,52 @@ export class Bootstrap {
     boot = async (): Promise<void> => {
         this.logger.info('Starting the bootstrapping process');
 
-        await this.pathService.ensureDirectoriesExist();
+       await this.pathService.ensureDirectoriesExist();
+
 
         if (this.options.shouldProcessImages) {
+            this.logger.info(MESSAGES.processingImages);
+
             await this.openAIImageToTextProcessor.process().catch((error) => {
                 this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
             });
         }
+        else
+        {
+            this.logger.info(MESSAGES.notProcessingImagesWithOpenAI);
+        }
 
         if (this.options.shouldProcessImagesWithTesseract) {
+            this.logger.info(MESSAGES.processingImagesWithTesseract);
             await this.tesseractImageToTextProcessor.process().catch((error) => {
                 this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
             });
         }
+        else{
+            this.logger.info(MESSAGES.notProcessingImagesWithTesseract);
+
+        }
 
         if (this.options.shouldConvertMarkdownToAudio) {
-            await this.markdownToAudioProcessor.process();
+            this.logger.info(MESSAGES.convertingMarkdownToAudio);
+            await this.markdownToAudioProcessor.process().catch((error) => {
+                this.logger.error(`${MESSAGES.errorMarkdownToAudioConversion} ${error}`);
+            });;
+        }
+        else
+        {
+            this.logger.info(MESSAGES.notConvertingMarkdownToAudio);
         }
 
         if (this.options.shouldMergeAudioFiles) {
-            const inputFiles = await this.pathService.getAudioFiles();
-            const outputFile = this.pathService.getConcatenatedAudioFile();
-            await this.textToSpeechProcessor.mergeAudioFiles(inputFiles, outputFile);
+            this.logger.info(MESSAGES.mergingAudioFiles);
+            await this.textToSpeechProcessor.process().catch((error) => {
+                this.logger.error(`${MESSAGES.errorMergingAudioFiles} ${error}`);
+            });;
+        }
+        else
+        {
+            this.logger.info(MESSAGES.notMergingAudioFiles);
         }
     }
 

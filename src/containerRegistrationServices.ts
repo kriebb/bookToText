@@ -59,8 +59,7 @@ function configureDI():DependencyContainer {
         },
     });
 
-
-    return container;
+    return container.createChildContainer();
 }
 
 export default configureDI;
