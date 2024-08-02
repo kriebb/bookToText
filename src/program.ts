@@ -1,12 +1,11 @@
 import { injectable } from 'tsyringe';
-import { EnvValidator } from './configuration/ConfigurationValidator';
 import { Bootstrap as Bootstrap } from './BootStrap';
 import { Logger } from './logging/Logger';
 
 @injectable()
 export class Program
 {
-    constructor( private envValidator: EnvValidator, private logger: Logger, private bootstrap:Bootstrap)
+    constructor( private logger: Logger, private bootstrap:Bootstrap)
     {
 
     }
@@ -16,7 +15,6 @@ export class Program
         this.logger.info(`Running under Node.js version: ${process.version}`);
 
 
-        this.envValidator.validateEnvVariables();
         return await this.bootstrap.boot( );
 
        

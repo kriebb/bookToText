@@ -7,7 +7,7 @@ import { Options } from '../configuration/models/Options';
 import { File } from '../fileSystem/models/File';
 import { BaseProcessor } from './BaseProcessor';
 import { ImageProcessor } from './ImageProcessor';
-import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES, OPENAI_MODEL } from '../configuration/Constants';
+import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES } from '../configuration/Constants';
 import MarkdownIt from 'markdown-it';
 
 export interface OCRImageFile{
@@ -51,7 +51,7 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
             content: [imageContent],
         };
         const body = {
-            model: OPENAI_MODEL,
+            model: this.options.openaiModel,
             messages: [systemMessage, userPreviousPageMessage, userImageMessage],
             temperature: 1,
             max_tokens: MAX_OPENAI_MODEL_LENGTH,

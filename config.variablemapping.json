@@ -1,0 +1,81 @@
+[
+    {
+        "optionName": "openaiApiKey",
+        "argumentName": "OPENAI_API_KEY",
+        "envVarName": "OPENAI_API_KEY"
+    },
+    {
+        "optionName": "openaiModel",
+        "argumentName": "OPENAI_MODEL",
+        "envVarName": "OPENAI_MODEL"
+    },
+    {
+        "optionName": "outputBaseDirectory",
+        "argumentName": "outputBaseDirectory",
+        "envVarName": "OUTPUT_BASE_DIR"
+    },
+    {
+        "optionName": "outputAudioSubDirectory",
+        "argumentName": "outputAudioSubDirectory",
+        "envVarName": "OUTPUT_AUDIO_SUB_DIR"
+    },
+    {
+        "optionName": "concatenatedAudioFile",
+        "argumentName": "concatenatedAudioFile",
+        "envVarName": "CONCATTED_AUDIO_FILE"
+    },
+    {
+        "optionName": "shouldMergeAudioFiles",
+        "argumentName": "shouldMergeAudioFiles",
+        "envVarName": "MERGE_AUDIO_FILES"
+    },
+    {
+        "optionName": "shouldConvertMarkdownToAudio",
+        "argumentName": "shouldConvertMarkdownToAudio",
+        "envVarName": "CONVERT_MARKDOWN_TO_AUDIO"
+    },
+    {
+        "optionName": "outputRecognizedTextFile",
+        "argumentName": "outputRecognizedTextFile",
+        "envVarName": "OUTPUT_RECOGNIZED_FILE"
+    },
+    {
+        "optionName": "shouldProcessImages",
+        "argumentName": "shouldProcessImages",
+        "envVarName": "PROCESS_IMAGES"
+    },
+    {
+        "optionName": "shouldProcessImagesWithTesseract",
+        "argumentName": "shouldProcessImagesWithTesseract",
+        "envVarName": "PROCESS_IMAGES_WITH_TESSERACT"
+    },
+    {
+        "optionName": "inputImagesDirectory",
+        "argumentName": "inputImagesDirectory",
+        "envVarName": "INPUT_IMAGES_DIR"
+    },
+    {
+        "optionName": "prompts.enhanceText.system",
+        "argumentName": "prompts:enhanceText:system",
+        "envVarName": "PROMPTS__ENHANCETEXT__SYSTEM",
+        "nestedPath": "prompts.enhanceText.system"
+    },
+    {
+        "optionName": "prompts.enhanceText.user",
+        "argumentName": "prompts:enhanceText:user",
+        "envVarName": "PROMPTS__ENHANCETEXT__USER",
+        "nestedPath": "prompts.enhanceText.user"
+    },
+    {
+        "optionName": "prompts.analyzeImage.system",
+        "argumentName": "prompts:analyzeImage:system",
+        "envVarName": "PROMPTS__ANALYZEIMAGE__SYSTEM",
+        "nestedPath": "prompts.analyzeImage.system"
+    },
+    {
+        "optionName": "prompts.analyzeImage.userPreviousPage",
+        "argumentName": "prompts:analyzeImage:userpreviouspage",
+        "envVarName": "PROMPTS__ANALYZEIMAGE__USERPREVIOUSPAGE",
+        "nestedPath": "prompts.analyzeImage.userpreviouspage"
+    }
+]

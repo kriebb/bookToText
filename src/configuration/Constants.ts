@@ -22,7 +22,6 @@ export const MESSAGES = {
   errorMarkdownToAudioConversion: 'Error during markdown to audio conversion:',
   errorMergingAudioFiles: 'Error during merging audio files:'
 };
-export const OPENAI_MODEL = 'OPENAI_MODEL';
 export const TTS_MODEL = 'tts-1';
 export const TTS_VOICE = 'alloy';
 export const TTS_RESPONSE_FORMAT = 'mp3';
@@ -47,3 +46,6 @@ export const COLLAPSE_SPACES_REGEX = /\s+/g;
 export const SENTENCE_REGEX = /[^\.!\?]+[\.!\?]+/g;
 
 export const MAX_OPENAI_MODEL_LENGTH = 4095;
+
+export const CONFIG_FILE_LOCATION = './config.json';
+export const VARIABLE_MAPPING_FILE_LOCATION = './config.variablemapping.json';

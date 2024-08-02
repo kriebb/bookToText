@@ -13,7 +13,7 @@ export class File {
 
 
     get fullPath(): string {
-        return path.join(this.directoryBase, `${this.name}${this.extension}`);
+        return path.resolve(path.join(this.directoryBase, `${this.name}${this.extension}`));
     }
 
 

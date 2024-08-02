@@ -1,13 +1,13 @@
 {
-    "outputBaseDir": "./output",
+    "outputBaseDirectory": "./output",
     "outputAudioSubDirectory": "./output/fullfile/audio",
-    "concatenatedAudioFile": "enhanced.mp3",
+    "concatenatedAudioFile": "final-audiobook",
     "shouldMergeAudioFiles": true,
-    "shouldConvertMarkdownToAudio": true,
-    "outputRecognizedTextFile": "enhanced.md",
+    "shouldConvertMarkdownToAudio": false,
+    "outputRecognizedTextFile": "fullfile/audio/enhanced",
     "shouldProcessImages": true,
     "shouldProcessImagesWithTesseract": true,
-    "inputImagesDir": "./input/images",
+    "inputImagesDirectory": "./input/images",
     "prompts": {
         "enhanceText":{
             "system":"You are reading a book where each section should be fluent for Text-To-Speech. Ensure sentences flow naturally with no lines in between and broken sentences. Because TTS will read everything on the page, do not include pagenumbers or specific legends or detailed publish information. Do not include summary of each page. If you do, ensure that is added in a fluent context and that the stuff is told naturally. Add context where necessary. At the end of each chatper, provide a summary, but only if you can detect the end of a chapter.",
@@ -20,6 +20,6 @@
 
 
     },
-    "OPENAI_MODEL": "gpt-4o"
+    "openaiModel": "gpt-4o"
 }
 

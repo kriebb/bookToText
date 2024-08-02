@@ -23,8 +23,8 @@ export class PathService {
     getMarkdownFile(): MarkddownFile {
         return new MarkddownFile( this.options.outputRecognizedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
     }
-    async getAudioFiles():Promise<AudioFile[]> {
-        return this.readFilesFromDirectory(AudioFile,this.getOutputAudioDirectory().basePath);
+    async getAudioFiles(filter:string):Promise<AudioFile[]> {
+        return this.readFilesFromDirectory(AudioFile,this.getOutputAudioDirectory().basePath, filter);
     }
 
     getOutputAudioDirectory(): Directory {
@@ -39,9 +39,10 @@ export class PathService {
         return new ImageFile(name, extension, this.options.outputBaseDirectory);
     }
 
-    async readFilesFromDirectory<T extends File>(fileClass: typeof File,directoryPath: string): Promise<T[]> {
+    async readFilesFromDirectory<T extends File>(fileClass: typeof File,directoryPath: string, filter:string | undefined = undefined): Promise<T[]> {
         const files = await fs.readdir(directoryPath);
-        return files.map(file => File.fromPath<T>(fileClass,path.join(directoryPath, file)));
+        if(!filter) return files.map(file => File.fromPath<T>(fileClass,path.join(directoryPath, file)));
+        return files.filter(file => file.includes(filter)).map(file => File.fromPath<T>(fileClass,path.join(directoryPath, file)));
     }
 
     async readInputImages(): Promise<ImageFile[]> {

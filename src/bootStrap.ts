@@ -7,7 +7,7 @@ import { Options } from './configuration/models/Options';
 import { PathService } from './fileSystem/PathService';
 import { MESSAGES } from './configuration/Constants';
 import { TesseractImageProcessor } from './processors/TesseractImageProcessor';
-import { TextToSpeechProcessor } from './processors/TextToSpeechProcessor';
+import { AudioMergerProcessor } from './processors/AudioMergerProcessor';
 import { MarkdownToAudioProcessor  } from './processors/MarkdownToAudioProcessor';
 import { OpenAIImageProcessor } from './processors/OpenAIImageProcessor';
 
@@ -16,7 +16,7 @@ export class Bootstrap {
     constructor(
         private logger: Logger,
         private tesseractImageToTextProcessor: TesseractImageProcessor,
-        private textToSpeechProcessor: TextToSpeechProcessor,   
+        private textToSpeechProcessor: AudioMergerProcessor,   
         private markdownToAudioProcessor: MarkdownToAudioProcessor,
         private openAIImageToTextProcessor: OpenAIImageProcessor,
         private pathService: PathService,
