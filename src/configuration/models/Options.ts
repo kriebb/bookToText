@@ -4,7 +4,7 @@ import { injectable } from "tsyringe";
  * Configuration options for the application.
  */
 @injectable()
-export class ApplicationOptions {
+export class Options {
     /**
      * API key for accessing OpenAI services.
      * @example "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"

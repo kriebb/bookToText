@@ -1,18 +1,18 @@
 import OpenAI from 'openai';
 import path from 'path';
 import { injectable } from 'tsyringe';
-import { Logger } from '../logger';
-import { ApplicationOptions } from '../ApplicationOptions';
-import { MESSAGES, MAX_OPENAI_MODEL_LENGTH, OPENAI_MODEL, HEADER_CONTENT_TYPE, TTS_MODEL, TTS_VOICE, TTS_RESPONSE_FORMAT, MAX_TOKENS_BUFFER, SENTENCE_REGEX } from '../constants';
-import { File } from '../models/File';
+import { Logger } from '../logging/Logger';
+import { Options } from '../configuration/models/Options';
+import { MESSAGES, MAX_OPENAI_MODEL_LENGTH, OPENAI_MODEL, HEADER_CONTENT_TYPE, TTS_MODEL, TTS_VOICE, TTS_RESPONSE_FORMAT, MAX_TOKENS_BUFFER, SENTENCE_REGEX } from '../configuration/Constants';
+import { File } from '../fileSystem/models/File';
 import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs-extra';
 @injectable()
-export class TextProcessor {
+export class TextToSpeechProcessor {
     constructor(
         private logger: Logger,
         private openai: OpenAI,
-        private options: ApplicationOptions
+        private options: Options
     ) {}
 
     splitText = (text: string): string[] => {

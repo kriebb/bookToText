@@ -9,11 +9,11 @@ export class Directory {
         return fs.ensureDir(this.basePath);
     }
 
-    async listFiles(): Promise<File[]> {
+    async listFiles<T extends File>(fileClass: new (name: string, extension: string, directoryBase: string) => T): Promise<T[]> {
         const fileNames = await fs.readdir(this.basePath);
         return fileNames.map(fileName => {
             const { name, ext } = path.parse(fileName);
-            return new File(name, ext.toLowerCase(), this.basePath);
+            return new fileClass(name, ext.toLowerCase(), this.basePath);
         });
     }
 
@@ -21,3 +21,4 @@ export class Directory {
         return path.join(this.basePath, filename);
     }
 }
+

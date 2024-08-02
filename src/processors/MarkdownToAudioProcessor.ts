@@ -1,19 +1,19 @@
 import { injectable } from 'tsyringe';
 import MarkdownIt from 'markdown-it';
-import { ApplicationOptions } from '../ApplicationOptions';
-import { REMOVE_BOLD_REGEX, REMOVE_ITALICS_REGEX, REMOVE_LINE_BREAKS_REGEX, COLLAPSE_SPACES_REGEX, MESSAGES } from '../constants';
-import { PathService } from '../PathService';
-import { TextProcessor } from './TextProcessor';
-import { Logger } from '../logger';
+import { Options as Options } from '../configuration/models/Options';
+import { REMOVE_BOLD_REGEX, REMOVE_ITALICS_REGEX, REMOVE_LINE_BREAKS_REGEX, COLLAPSE_SPACES_REGEX, MESSAGES } from '../configuration/Constants';
+import { PathService } from '../fileSystem/PathService';
+import { TextToSpeechProcessor } from './TextToSpeechProcessor';
+import { Logger } from '../logging/Logger';
 
 
 @injectable()
-export class MarkdownProcessor {
+export class MarkdownToAudioProcessor {
     constructor(
         private md: MarkdownIt,
         private pathService: PathService,
-        private textProcessor: TextProcessor,
-        private options: ApplicationOptions,
+        private textToSpeechProcessor: TextToSpeechProcessor,
+        private options: Options,
         private logger: Logger
     ) {}
 
@@ -32,14 +32,15 @@ export class MarkdownProcessor {
     }
 
     async process(): Promise<void> {
-        const textContent = await this.pathService.getMarkdownContent();
-        const sections = this.textProcessor.splitText(textContent);
         const markdownFile = this.pathService.getMarkdownFile();
+
+        const textContent = await markdownFile.readContentAsString('utf-8');
+        const sections = this.textToSpeechProcessor.splitText(textContent);
         for (let i = 0; i < sections.length; i++) {
-            const enhancedText = await this.textProcessor.enhanceText(sections[i]);
+            const enhancedText = await this.textToSpeechProcessor.enhanceText(sections[i]);
             if (!enhancedText) break;
             await markdownFile.appendContent(`${enhancedText}\n\n`);
-            await this.textProcessor.convertTextToAudio(enhancedText, i + 1, this.pathService.getOutputAudioDirectory().directoryBase);;
+            await this.textToSpeechProcessor.convertTextToAudio(enhancedText, i + 1, this.pathService.getOutputAudioDirectory().basePath);;
         }
         this.logger.info(`${MESSAGES.enhancementComplete} ${this.options.outputRecognizedTextFile}`);
     }

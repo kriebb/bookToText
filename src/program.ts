@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
-import { EnvValidator } from './envValidator';
-import { Bootstrap as Bootstrap } from './bootStrap';
-import { Logger } from './logger';
+import { EnvValidator } from './configuration/ConfigurationValidator';
+import { Bootstrap as Bootstrap } from './BootStrap';
+import { Logger } from './logging/Logger';
 
 @injectable()
 export class Program

@@ -1,12 +1,9 @@
 
 import * as fs from 'fs-extra';
 import * as path from 'path';
-import Sharp from 'sharp';
+import { FileFactory } from '../FileFactory';
 
 export class File {
-    async createJpeg(jpgImageFile: File) {
-        await Sharp(this.fullPath).jpeg().toFile(jpgImageFile.fullPath);
-    }
 
     constructor(
         public name: string,
@@ -19,13 +16,19 @@ export class File {
         return path.join(this.directoryBase, `${this.name}${this.extension}`);
     }
 
-    static fromPath(filePath: string): File {
+
+    static fromPath<T extends File>(fileClass: typeof File, filePath: string): T {
         const { dir, name, ext } = path.parse(filePath);
-        return new File(name, ext, dir);
+        return FileFactory.new<T>(fileClass,name,ext,dir);
+
+
     }
 
     async readContent(): Promise<Buffer> {
         return await fs.readFile(this.fullPath);
+    }
+    async readContentAsString(encoding:BufferEncoding): Promise<string> {
+        return (await fs.readFile(this.fullPath)).toString(encoding);
     }
 
     async appendContent(content: string): Promise<void> {

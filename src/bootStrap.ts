@@ -1,55 +1,55 @@
 
 import { injectable } from 'tsyringe';
 import 'dotenv/config';
-import configureDI from './containerRegistrationServices';
-import { Logger } from './logger';
-import { ApplicationOptions } from './ApplicationOptions';
-import { PathService } from './PathService';
-import { MESSAGES } from './constants';
-import { TesseractProcessor } from './processors/TesseractImageProcessor';
-import { TextProcessor } from './processors/TextProcessor';
-import { MarkdownProcessor as MarkdownToAudioProcessor } from './processors/MarkdownProcessor';
-import { OpenAIProcessor } from './processors/OpenAIProcessor';
+import configureDI from './ContainerRegistrationServices';
+import { Logger } from './logging/Logger';
+import { Options } from './configuration/models/Options';
+import { PathService } from './fileSystem/PathService';
+import { MESSAGES } from './configuration/Constants';
+import { TesseractImageProcessor } from './processors/TesseractImageProcessor';
+import { TextToSpeechProcessor } from './processors/TextToSpeechProcessor';
+import { MarkdownToAudioProcessor  } from './processors/MarkdownToAudioProcessor';
+import { OpenAIImageProcessor } from './processors/OpenAIImageProcessor';
 
 @injectable()
 export class Bootstrap {
     constructor(
         private logger: Logger,
-        private TesseractImageToTextProcessor: TesseractProcessor,
-        private TextToAudioProcessor: TextProcessor,   
-        private MarkdownProcessor: MarkdownToAudioProcessor,
-        private OpenAIImageToTexxtProcessor: OpenAIProcessor,
+        private tesseractImageToTextProcessor: TesseractImageProcessor,
+        private textToSpeechProcessor: TextToSpeechProcessor,   
+        private markdownToAudioProcessor: MarkdownToAudioProcessor,
+        private openAIImageToTextProcessor: OpenAIImageProcessor,
         private pathService: PathService,
 
-        private options: ApplicationOptions
+        private options: Options
 
     ) {}
 
     boot = async (): Promise<void> => {
         this.logger.info('Starting the bootstrapping process');
-        configureDI();
+
         await this.pathService.ensureDirectoriesExist();
 
         if (this.options.shouldProcessImages) {
-            await this.OpenAIImageToTexxtProcessor.process().catch((error) => {
+            await this.openAIImageToTextProcessor.process().catch((error) => {
                 this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
             });
         }
 
         if (this.options.shouldProcessImagesWithTesseract) {
-            await this.TesseractImageToTextProcessor.process().catch((error) => {
+            await this.tesseractImageToTextProcessor.process().catch((error) => {
                 this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
             });
         }
 
         if (this.options.shouldConvertMarkdownToAudio) {
-            await this.MarkdownProcessor.process();
+            await this.markdownToAudioProcessor.process();
         }
 
         if (this.options.shouldMergeAudioFiles) {
             const inputFiles = await this.pathService.getAudioFiles();
             const outputFile = this.pathService.getConcatenatedAudioFile();
-            await this.TextToAudioProcessor.mergeAudioFiles(inputFiles, outputFile);
+            await this.textToSpeechProcessor.mergeAudioFiles(inputFiles, outputFile);
         }
     }
 

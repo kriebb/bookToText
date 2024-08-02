@@ -1,15 +1,18 @@
 import 'reflect-metadata';
-import configureDI from './containerRegistrationServices';
-import { container } from 'tsyringe';
-import { Program } from './program';
+import configureDI from './ContainerRegistrationServices';
+import { Program } from './Program';
 
+async function run() {
+    try {
+        const program = configureDI().resolve(Program);
+        await program.main();
+        console.log("Finishing program main");
+    } catch (error) {
+        console.error(error);
+    } finally {
+        console.log("Program finished");
+    }
+}
 
-
-
-configureDI(); // Configure the DI container
-
-
- const program: Program =    container.resolve(Program);
- program.main().then(() => { console.log("finishing program main")});;
-
-
+// Execute the run function
+run();

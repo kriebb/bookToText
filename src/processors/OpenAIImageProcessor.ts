@@ -1,25 +1,25 @@
 // processors/OpenAIProcessor.ts
 import { injectable } from 'tsyringe';
-import { Logger } from '../logger';
+import { Logger } from '../logging/Logger';
 import { OpenAI } from 'openai';
-import { PathService } from '../PathService';
-import { ApplicationOptions } from '../ApplicationOptions';
-import { File } from '../models/File';
+import { PathService } from '../fileSystem/PathService';
+import { Options } from '../configuration/models/Options';
+import { File } from '../fileSystem/models/File';
 import { BaseProcessor } from './BaseProcessor';
 import { ImageProcessor } from './ImageProcessor';
-import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES, OPENAI_MODEL } from '../constants';
+import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES, OPENAI_MODEL } from '../configuration/Constants';
 import MarkdownIt from 'markdown-it';
 
 export interface OCRImageFile{
     text:string;
 }
 @injectable()
-export class OpenAIProcessor extends ImageProcessor implements BaseProcessor {
+export class OpenAIImageProcessor extends ImageProcessor implements BaseProcessor {
     constructor(
         logger: Logger,
         private openai: OpenAI,
         pathService: PathService,
-        options: ApplicationOptions,
+        options: Options,
         private md: MarkdownIt
     ) {
         super(pathService, options, logger);

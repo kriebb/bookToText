@@ -1,15 +1,15 @@
 import { injectable } from 'tsyringe';
 import Sharp from 'sharp';
-import { Logger } from '../logger';
-import { ApplicationOptions } from '../ApplicationOptions';
-import { PathService } from '../PathService';
-import { File } from '../models/File';
+import { Logger } from '../logging/Logger';
+import { Options } from '../configuration/models/Options';
+import { PathService } from '../fileSystem/PathService';
+import { File } from '../fileSystem/models/File';
 
 @injectable()
 export class ImageProcessor {
     constructor(
         protected pathService: PathService,
-        protected options: ApplicationOptions,
+        protected options: Options,
         protected logger: Logger
     ) {}
 

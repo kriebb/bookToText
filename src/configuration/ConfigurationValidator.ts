@@ -1,10 +1,10 @@
 import { injectable } from "tsyringe";
-import { Logger } from "./logger";
-import { ApplicationOptions } from "./ApplicationOptions";
+import { Logger } from "../logging/Logger";
+import { Options } from "./models/Options";
 
 @injectable()
 export class EnvValidator {
-    constructor(private logger:Logger, private options: ApplicationOptions) { 
+    constructor(private logger:Logger, private options: Options) { 
     }
     validateEnvVariables = (): void => {
         const missingVars = requiredEnvironmentVariables.filter(varName => !this.options[varName]);

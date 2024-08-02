@@ -1,18 +1,18 @@
 import { injectable } from 'tsyringe';
 import { createWorker } from 'tesseract.js';
-import { PathService } from '../PathService';
-import { ApplicationOptions } from '../ApplicationOptions';
-import { Logger } from '../logger';
-import { File } from '../models/File';
+import { PathService } from '../fileSystem/PathService';
+import { Options } from '../configuration/models/Options';
+import { Logger } from '../logging/Logger';
+import { File } from '../fileSystem/models/File';
 import { BaseProcessor } from './BaseProcessor';
-import { FILE_EXTENSIONS, MESSAGES } from '../constants';
+import { FILE_EXTENSIONS, MESSAGES } from '../configuration/Constants';
 import { ImageProcessor } from './ImageProcessor';
 
 @injectable()
-export class TesseractProcessor extends ImageProcessor implements BaseProcessor {
+export class TesseractImageProcessor extends ImageProcessor implements BaseProcessor {
     constructor(
         pathService: PathService,
-        options: ApplicationOptions,
+        options: Options,
         logger: Logger
     ) {
         super(pathService, options, logger);
