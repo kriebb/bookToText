@@ -9,10 +9,8 @@ import { BaseProcessor } from './BaseProcessor';
 import { ImageProcessor } from './ImageProcessor';
 import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES } from '../configuration/Constants';
 import MarkdownIt from 'markdown-it';
+import { OCRImageFile } from './OCRImageFile';
 
-export interface OCRImageFile{
-    text:string;
-}
 @injectable()
 export class OpenAIImageProcessor extends ImageProcessor implements BaseProcessor {
     constructor(
@@ -67,7 +65,7 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
         return { text: description };
     }
 
-    async process(): Promise<void> {
+    override async process(): Promise<void> {
         const imageFiles = await this.pathService.readInputImages();
         let previousContext: any = null;
         for (const imageFile of imageFiles) {

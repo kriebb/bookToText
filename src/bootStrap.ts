@@ -10,6 +10,7 @@ import { TesseractImageProcessor } from './processors/TesseractImageProcessor';
 import { AudioMergerProcessor } from './processors/AudioMergerProcessor';
 import { MarkdownToAudioProcessor  } from './processors/MarkdownToAudioProcessor';
 import { OpenAIImageProcessor } from './processors/OpenAIImageProcessor';
+import { TextFileMergerProcessor } from './processors/AudioMergerProcessor copy';
 
 @injectable()
 export class Bootstrap {
@@ -19,6 +20,7 @@ export class Bootstrap {
         private textToSpeechProcessor: AudioMergerProcessor,   
         private markdownToAudioProcessor: MarkdownToAudioProcessor,
         private openAIImageToTextProcessor: OpenAIImageProcessor,
+        private mergeTextFilesProcessor: TextFileMergerProcessor,
         private pathService: PathService,
 
         private options: Options
@@ -37,6 +39,8 @@ export class Bootstrap {
             await this.openAIImageToTextProcessor.process().catch((error) => {
                 this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
             });
+
+            
         }
         else
         {
@@ -53,6 +57,17 @@ export class Bootstrap {
             this.logger.info(MESSAGES.notProcessingImagesWithTesseract);
 
         }
+        if(this.options.shouldMergeTextFiles)
+            {
+                this.logger.info(MESSAGES.processingTextFiles);
+                await this.mergeTextFilesProcessor.process().catch((error) => {
+                    this.logger.error(`${MESSAGES.errorOpenAiApiCall} ${error}`);
+                });            }
+            else
+            {
+                this.logger.info(MESSAGES.notProcessingTextFiles);
+            }
+    
 
         if (this.options.shouldConvertMarkdownToAudio) {
             this.logger.info(MESSAGES.convertingMarkdownToAudio);

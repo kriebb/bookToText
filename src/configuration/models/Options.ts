@@ -41,6 +41,12 @@ export class Options {
     shouldMergeAudioFiles: boolean;
 
     /**
+     * Flag to indicate whether to merge text files.
+     * @example true
+     */
+    shouldMergeTextFiles: boolean;
+
+    /**
      * Flag to indicate whether to convert markdown to audio.
      * @example true
      */
@@ -51,6 +57,12 @@ export class Options {
      * @example "/path/to/output/recognized.txt"
      */
     outputRecognizedTextFile: string;
+
+        /**
+     * Path to the file where text will be output from the image.
+     * @example "/path/to/output.txt"
+     */
+        outputTextFileDirectory: string;
 
     /**
      * Flag to indicate whether to process images.
@@ -115,9 +127,11 @@ export class Options {
         this.concatenatedAudioFile = "/path/to/output/audio/concatenated.mp3";
         this.shouldMergeAudioFiles = true;
         this.shouldConvertMarkdownToAudio = true;
+        this.outputTextFileDirectory = "/path/to/output/text";
         this.outputRecognizedTextFile = "/path/to/output/recognized.txt";
         this.shouldProcessImages = true;
         this.shouldProcessImagesWithTesseract = true;
+        this.shouldMergeTextFiles = true;
         this.inputImagesDirectory = "/path/to/input/images";
         this.prompts = {
             enhanceText: {

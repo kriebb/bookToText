@@ -8,10 +8,10 @@ import { File } from '../fileSystem/models/File';
 import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs-extra';
 import { PathService } from '../fileSystem/PathService';
-import { AudioFile } from '../fileSystem/models/AudioFile';
 import { BaseProcessor } from './BaseProcessor';
+import { MarkdownFile } from '../fileSystem/models/MarkdownFile';
 @injectable()
-export class AudioMergerProcessor extends BaseProcessor {
+export class TextFileMergerProcessor extends BaseProcessor {
 
     constructor(
         private logger: Logger,
@@ -21,24 +21,22 @@ export class AudioMergerProcessor extends BaseProcessor {
     }
 
    override async process(): Promise<void> {
-        const inputFiles = await this.pathService.getAudioFiles("part");
-        const outputFile = this.pathService.getConcatenatedAudioFile();
-        await this.mergeAudioFiles(inputFiles, outputFile);    
+        const inputFiles = await this.pathService.getMarkdownFiles("part");
+        const outputFile = this.pathService.getMarkdownFile();
+        await this.mergeTextFiles(inputFiles, outputFile);    
     }
 
 
-    async mergeAudioFiles(inputFiles: AudioFile[], outputFile: AudioFile): Promise<void> {
+    async mergeTextFiles(inputFiles: MarkdownFile[], outputFile: MarkdownFile): Promise<void> {
         this.logger.info(`Merging audio files to ${outputFile.fullPath}`);
         this.logger.info(`Input files: ${inputFiles.map(file => file.fullPath).join(', ')}`);
 
-        const command = ffmpeg();
-        inputFiles.forEach(file => command.input(file.fullPath));
-        return new Promise((resolve, reject) => {
-            command
-                .on('error', (err) => reject(err))
-                .on('end', () => resolve())
-                .mergeToFile(outputFile.fullPath, path.dirname(outputFile.fullPath));
+        await inputFiles.forEach(async inputFile => {
+            const content = await inputFile.readContentAsString('utf-8');
+            await outputFile.appendContent(content);
         });
+
+
     }
 
 }

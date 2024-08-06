@@ -18,7 +18,7 @@ export class TesseractImageProcessor extends ImageProcessor implements BaseProce
         super(pathService, options, logger);
     }
 
-    async process(): Promise<void> {
+    override async process(): Promise<void> {
         const worker = await createWorker();
         const imageFiles = await this.pathService.readInputImages();
         for (const imageFile of imageFiles) {

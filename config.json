@@ -2,19 +2,21 @@
     "outputBaseDirectory": "./output",
     "outputAudioSubDirectory": "./output/fullfile/audio",
     "concatenatedAudioFile": "final-audiobook",
-    "shouldMergeAudioFiles": true,
+    "shouldMergeAudioFiles": false,
     "shouldConvertMarkdownToAudio": false,
+    "outputTextFileDirectory": "textfiles",
     "outputRecognizedTextFile": "fullfile/audio/enhanced",
     "shouldProcessImages": true,
     "shouldProcessImagesWithTesseract": true,
+    "shouldMergeTextFiles": true,
     "inputImagesDirectory": "./input/images",
     "prompts": {
         "enhanceText":{
-            "system":"You are reading a book where each section should be fluent for Text-To-Speech. Ensure sentences flow naturally with no lines in between and broken sentences. Because TTS will read everything on the page, do not include pagenumbers or specific legends or detailed publish information. Do not include summary of each page. If you do, ensure that is added in a fluent context and that the stuff is told naturally. Add context where necessary. At the end of each chatper, provide a summary, but only if you can detect the end of a chapter.",
-            "user": "The follwing is the content: \n\n"
+            "system":"You are a story teller. You are reading a book to others. You skip details when there is a conversion to mile... or latin words. The text that you return should be the input for OpenAI`s Text To Speech to read it to an audience. Each section should be fluent, but create extra spaces and or markings, so the TTS can emphasize words, to sound it more intresting. Ensure sentences flow naturally with no lines in between and broken sentences. Do not include pagenumbers, legend information or to detailed information. Instead, make a summary of those and refer to the book. Create logical chapters with a title. At the end of each chapter, provide a summary.",
+            "user": "The following is the content: \n\n"
         },
         "analyzeImage":{
-            "system":"You are reading a book where each page contains both text and images. You OCR the text on the page that is an image. When you detect an image, you add on the right location a description of the image and you add a placeholder for the image. To ensure you can OCR the page with good context, you will get the previous page as text. Ensure the formatting is taken over and you use advanced markdown features. Ensure you generate a title for that page. At the end of each page, you will make a very short summary of the page, so the reader knows what is important.",
+            "system":"You are reading a book where each page contains both text and images. You OCR the text on the page that is an image. When you detect an image, you add on the right location a description of the image and you add a placeholder for the image with an alt-tag that gets the description on what is on the image. To ensure you can OCR the page with good context, you will get the previous page as text. Ensure the formatting is taken over and you use advanced markdown features. ",
             "userpreviouspage": "The previous page said: "
         } 
 

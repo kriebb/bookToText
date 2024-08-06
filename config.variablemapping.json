@@ -30,6 +30,11 @@
         "envVarName": "MERGE_AUDIO_FILES"
     },
     {
+        "optionName": "shouldMergeTextFiles",
+        "argumentName": "shouldMergeTextFiles",
+        "envVarName": "MERGE_TEXT_FILES"
+    },
+    {
         "optionName": "shouldConvertMarkdownToAudio",
         "argumentName": "shouldConvertMarkdownToAudio",
         "envVarName": "CONVERT_MARKDOWN_TO_AUDIO"
@@ -38,6 +43,11 @@
         "optionName": "outputRecognizedTextFile",
         "argumentName": "outputRecognizedTextFile",
         "envVarName": "OUTPUT_RECOGNIZED_FILE"
+    },
+    {
+        "optionName": "outputTextFileDirectory",
+        "argumentName": "outputTextFileDirectory",
+        "envVarName": "OUTPUT_FILE_DIR"
     },
     {
         "optionName": "shouldProcessImages",

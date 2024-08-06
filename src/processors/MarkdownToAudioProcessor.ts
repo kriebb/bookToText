@@ -8,17 +8,20 @@ import { Logger } from '../logging/Logger';
 import OpenAI from 'openai';
 import path from 'path';
 import * as fs from 'fs-extra';
+import { BaseProcessor } from './BaseProcessor';
 
 
 @injectable()
-export class MarkdownToAudioProcessor {
+export class MarkdownToAudioProcessor extends BaseProcessor {
     constructor(
         private md: MarkdownIt,
         private pathService: PathService,
         private openai: OpenAI,
         private options: Options,
         private logger: Logger
-    ) {}
+    ) {
+        super();
+    }
 
     preprocessMarkdown(markdownContent: string): string {
         let textContent = this.md.render(markdownContent);
@@ -34,7 +37,7 @@ export class MarkdownToAudioProcessor {
         return textContent;
     }
 
-    async process(): Promise<void> {
+    override async process(): Promise<void> {
         const markdownFile = this.pathService.getMarkdownFile();
 
         const textContent = await markdownFile.readContentAsString('utf-8');

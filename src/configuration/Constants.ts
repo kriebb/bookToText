@@ -20,7 +20,9 @@ export const MESSAGES = {
   mergingAudioFiles: 'Merging audio files',
   notMergingAudioFiles: 'Not merging audio files',
   errorMarkdownToAudioConversion: 'Error during markdown to audio conversion:',
-  errorMergingAudioFiles: 'Error during merging audio files:'
+  errorMergingAudioFiles: 'Error during merging audio files:',
+  processingTextFiles: 'Merging textfiles',
+  notProcessingTextFiles: 'Not merging text files',
 };
 export const TTS_MODEL = 'tts-1';
 export const TTS_VOICE = 'alloy';

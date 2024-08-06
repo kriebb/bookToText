@@ -7,7 +7,7 @@ import { FILE_EXTENSIONS } from "../configuration/Constants";
 import { ImageFile } from "./models/ImageFile";
 import { AudioFile } from "./models/AudioFile";
 import { Directory } from "./models/Directory";
-import { MarkddownFile } from "./models/MarkddownFile";
+import { MarkdownFile } from "./models/MarkdownFile";
 import { Logger } from "../logging/Logger";
 
 @injectable()
@@ -20,11 +20,18 @@ export class PathService {
         await fs.ensureDir(this.options.inputImagesDirectory).then(() => { this.logger.info(this.options.inputImagesDirectory + " exsts") }).catch((error) => { this.logger.error(error)}).finally(() => {});;
     }
 
-    getMarkdownFile(): MarkddownFile {
-        return new MarkddownFile( this.options.outputRecognizedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
+    getMarkdownFile(): MarkdownFile {
+        return new MarkdownFile( this.options.outputRecognizedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
+    }
+    async getMarkdownFiles(filter:string):Promise<MarkdownFile[]> {
+        return this.readFilesFromDirectory(MarkdownFile,this.getOutputMarkdownFileDirectory().basePath, filter);
     }
     async getAudioFiles(filter:string):Promise<AudioFile[]> {
         return this.readFilesFromDirectory(AudioFile,this.getOutputAudioDirectory().basePath, filter);
+    }
+
+    getOutputMarkdownFileDirectory(): Directory {
+        return new Directory(this.options.outputTextFileDirectory);
     }
 
     getOutputAudioDirectory(): Directory {
