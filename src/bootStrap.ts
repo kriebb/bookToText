@@ -1,7 +1,6 @@
 
 import { injectable } from 'tsyringe';
 import 'dotenv/config';
-import configureDI from './ContainerRegistrationServices';
 import { Logger } from './logging/Logger';
 import { Options } from './configuration/models/Options';
 import { PathService } from './fileSystem/PathService';
@@ -10,7 +9,7 @@ import { TesseractImageProcessor } from './processors/TesseractImageProcessor';
 import { AudioMergerProcessor } from './processors/AudioMergerProcessor';
 import { MarkdownToAudioProcessor  } from './processors/MarkdownToAudioProcessor';
 import { OpenAIImageProcessor } from './processors/OpenAIImageProcessor';
-import { TextFileMergerProcessor } from './processors/AudioMergerProcessor copy';
+import { TextFileMergerProcessor } from './processors/TextFileMergerProcessor';
 
 @injectable()
 export class Bootstrap {

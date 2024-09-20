@@ -20,8 +20,11 @@ export class PathService {
         await fs.ensureDir(this.options.inputImagesDirectory).then(() => { this.logger.info(this.options.inputImagesDirectory + " exsts") }).catch((error) => { this.logger.error(error)}).finally(() => {});;
     }
 
-    getMarkdownFile(): MarkdownFile {
-        return new MarkdownFile( this.options.outputRecognizedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
+    getOutputRecognizedTextFile(fileExtension:string = FILE_EXTENSIONS.md): MarkdownFile {
+        return new MarkdownFile( this.options.outputRecognizedTextFile, fileExtension, this.options.outputBaseDirectory);
+    }
+    getOutputEnhancedTextFile(): MarkdownFile {
+        return new MarkdownFile( this.options.outputEnhancedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
     }
     async getMarkdownFiles(filter:string):Promise<MarkdownFile[]> {
         return this.readFilesFromDirectory(MarkdownFile,this.getOutputMarkdownFileDirectory().basePath, filter);

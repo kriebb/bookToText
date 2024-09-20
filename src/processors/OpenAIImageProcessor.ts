@@ -69,13 +69,18 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
         const imageFiles = await this.pathService.readInputImages();
         let previousContext: any = null;
         for (const imageFile of imageFiles) {
-            const xhtmlFile = this.pathService.getImageOutputFile(imageFile.name, FILE_EXTENSIONS.markdownXHTML);
+            const xhtmlFile = this.pathService.getImageOutputFile(imageFile.name, FILE_EXTENSIONS.markdownXHTML); //already processed
             if (await xhtmlFile.exists()) {
                 this.logger.info(MESSAGES.fileExistsSkip.replace('{imageFile}', imageFile.name));
             } else {
+
+                let jpgImageFile = imageFile;
+
                 if (imageFile.extension === FILE_EXTENSIONS.tiff || imageFile.extension === FILE_EXTENSIONS.tif) {
-                    const jpgImageFile = this.pathService.getImageOutputFile(imageFile.name, FILE_EXTENSIONS.jpg);
+                    let jpgImageFile = this.pathService.getImageOutputFile(imageFile.name, FILE_EXTENSIONS.jpg);
+
                     await this.createJpeg(imageFile, jpgImageFile);
+                }
 
                     const pageContext = await this.analyzeImage(jpgImageFile, previousContext);
                     if (!pageContext) break;
@@ -83,9 +88,7 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
                     const markdownContent = this.generateMarkdown(pageContext);
                     await xhtmlFile.writeString(markdownContent);
                     previousContext = pageContext;
-                } else {
-                    this.logger.debug(MESSAGES.nonTiffFileSkip.replace('{imageFile}', imageFile.name));
-                }
+                
             }
         }
     }

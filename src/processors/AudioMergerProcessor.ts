@@ -3,7 +3,7 @@ import path from 'path';
 import { injectable } from 'tsyringe';
 import { Logger } from '../logging/Logger';
 import { Options } from '../configuration/models/Options';
-import { MESSAGES, MAX_OPENAI_MODEL_LENGTH,  HEADER_CONTENT_TYPE, TTS_MODEL, TTS_VOICE, TTS_RESPONSE_FORMAT, MAX_TOKENS_BUFFER, SENTENCE_REGEX } from '../configuration/Constants';
+import { MESSAGES, MAX_OPENAI_MODEL_LENGTH,  HEADER_CONTENT_TYPE, TTS_MODEL, TTS_VOICE_MALE, TTS_RESPONSE_FORMAT, MAX_TOKENS_BUFFER, SENTENCE_REGEX } from '../configuration/Constants';
 import { File } from '../fileSystem/models/File';
 import ffmpeg from 'fluent-ffmpeg';
 import * as fs from 'fs-extra';

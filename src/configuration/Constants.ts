@@ -25,7 +25,9 @@ export const MESSAGES = {
   notProcessingTextFiles: 'Not merging text files',
 };
 export const TTS_MODEL = 'tts-1';
-export const TTS_VOICE = 'alloy';
+export const TTS_VOICE_MALE = 'alloy';
+export const TTS_VOICE_FEMALE = 'fable';
+
 export const TTS_RESPONSE_FORMAT = 'mp3';
 export const MAX_TOKENS_BUFFER = 1000;
 export const HEADER_CONTENT_TYPE = 'application/json';

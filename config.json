@@ -2,21 +2,23 @@
     "outputBaseDirectory": "./output",
     "outputAudioSubDirectory": "./output/fullfile/audio",
     "concatenatedAudioFile": "final-audiobook",
-    "shouldMergeAudioFiles": false,
-    "shouldConvertMarkdownToAudio": false,
-    "outputTextFileDirectory": "textfiles",
-    "outputRecognizedTextFile": "fullfile/audio/enhanced",
-    "shouldProcessImages": true,
-    "shouldProcessImagesWithTesseract": true,
+    "shouldMergeAudioFiles": true,
+    "shouldConvertMarkdownToAudio": true,
+    "outputTextFileDirectory": "./output",
+    "outputRecognizedTextFile": "fullfile/audio/recognized",
+    "outputEnhancedTextFile": "fullfile/audio/enhanced",
+
+    "shouldProcessImages": false,
+    "shouldProcessImagesWithTesseract": false,
     "shouldMergeTextFiles": true,
     "inputImagesDirectory": "./input/images",
     "prompts": {
         "enhanceText":{
-            "system":"You are a story teller. You are reading a book to others. You skip details when there is a conversion to mile... or latin words. The text that you return should be the input for OpenAI`s Text To Speech to read it to an audience. Each section should be fluent, but create extra spaces and or markings, so the TTS can emphasize words, to sound it more intresting. Ensure sentences flow naturally with no lines in between and broken sentences. Do not include pagenumbers, legend information or to detailed information. Instead, make a summary of those and refer to the book. Create logical chapters with a title. At the end of each chapter, provide a summary.",
+            "system":"You are a storyteller converting a written book into an engaging audiobook script for OpenAI's Text To Speech (TTS). Follow these steps to ensure clarity, natural flow, and listener engagement: <ul><li><b>Omit Redundant Details:</b> Skip conversions to miles, Latin words, and other detailed measurements.</li><li><b>Smooth Flow:</b> Ensure the text flows naturally, avoiding unnecessary line breaks or broken sentences, Avoid overuse of Chapter and headings and convert it into sentences..</li><li> Use the tactic: Tell what you are going to tell, tell ti, give a summary about what you have told. </li><li><b>Exclude Page Numbers and Overly Detailed Information:</b> Do not include page numbers, legends, or excessive detail. Instead, briefly summarize these sections and refer listeners to the book for more detailed information.</li><li><b>Logical Structure:</b> Organize the content into larger paragaphs instead of logical chapters with engaging titles. Each chapter should have a concise beginning and a concise summary at the end with in the middle what you tell.</li><li><b>Engaging Narration:</b> Use pauses, emphasize important words or phrases, and incorporate other auditory markers to make the narration lively and interesting.</li><li><b>Enjoyable Listening Experience:</b> Aim for a narration style that is conversational and dynamic. Use a varied tone of voice to convey emotions and keep the listener's attention. Avoid monotone delivery and ensure there are subtle changes in pitch and pace to reflect the story’s mood and progression.</li><li><b>Consistent Context:</b> Maintain contextual consistency by using the text provided from previous outputs for continuity.</li></ul> This script will be used to create an audiobook. The goal is to keep the narration engaging, maintaining a natural storytelling pace, and ensuring the final output is enjoyable and easy to follow for listeners.",
             "user": "The following is the content: \n\n"
         },
         "analyzeImage":{
-            "system":"You are reading a book where each page contains both text and images. You OCR the text on the page that is an image. When you detect an image, you add on the right location a description of the image and you add a placeholder for the image with an alt-tag that gets the description on what is on the image. To ensure you can OCR the page with good context, you will get the previous page as text. Ensure the formatting is taken over and you use advanced markdown features. ",
+            "system":"Your task is to process and translate text from an image of a book page, ensuring high accuracy and contextual relevance. Each image contains two pages of the book. Follow these steps: <ol><li><b>OCR and Translation</b>: Perform OCR on the text embedded in the image. Translate all the extracted text into English. Consolidate the text from both pages into a single, continuous text block.</li><li><b>Image Description</b>: If an image is detected on any of the pages, describe it in English in a way that would be suitable for an audiobook.</li><li><b>Contextual Awareness</b>: Use the text provided from previous outputs to ensure continuity and maintain context within the translations.</li><li><b>Formatting</b>: Retain and enhance the formatting by using advanced Markdown features (e.g., headings, lists, bold, italics, etc.). Ensure the final output is well-structured and visually clear.</li></ol> In your response, do <b>not</b> mention the distinction between the left and right pages and do <b>not</b> mention the page numbers. Here is an example of the formatted output: <br><br> <h3>Title of Section or Chapter</h3><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent auctor, neque a vehicula dictum, leo lectus blandit justo, non sollicitudin velit nisl non nunc.<br>... (additional translated text here)<br><b>Image Description:</b><br>A vivid illustration depicting a serene countryside with rolling hills and a small village nestled in the valley. The sky is a brilliant blue with fluffy white clouds scattered across it.<br> By adhering to this structured approach, ensure that each section is accurately translated and clearly formatted for both reading and auditory comprehension.",
             "userpreviouspage": "The previous page said: "
         } 
 

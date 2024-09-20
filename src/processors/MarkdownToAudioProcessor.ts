@@ -1,7 +1,7 @@
 import { injectable } from 'tsyringe';
 import MarkdownIt from 'markdown-it';
 import { Options as Options } from '../configuration/models/Options';
-import { REMOVE_BOLD_REGEX, REMOVE_ITALICS_REGEX, REMOVE_LINE_BREAKS_REGEX, COLLAPSE_SPACES_REGEX, MESSAGES, MAX_OPENAI_MODEL_LENGTH, HEADER_CONTENT_TYPE, MAX_TOKENS_BUFFER, SENTENCE_REGEX, TTS_MODEL, TTS_RESPONSE_FORMAT, TTS_VOICE } from '../configuration/Constants';
+import { REMOVE_BOLD_REGEX, REMOVE_ITALICS_REGEX, REMOVE_LINE_BREAKS_REGEX, COLLAPSE_SPACES_REGEX, MESSAGES, MAX_OPENAI_MODEL_LENGTH, HEADER_CONTENT_TYPE, MAX_TOKENS_BUFFER, SENTENCE_REGEX, TTS_MODEL, TTS_RESPONSE_FORMAT, TTS_VOICE_MALE, TTS_VOICE_FEMALE } from '../configuration/Constants';
 import { PathService } from '../fileSystem/PathService';
 import { AudioMergerProcessor } from './AudioMergerProcessor';
 import { Logger } from '../logging/Logger';
@@ -23,32 +23,24 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
         super();
     }
 
-    preprocessMarkdown(markdownContent: string): string {
-        let textContent = this.md.render(markdownContent);
-        const regexReplacements = [
-            { regex: REMOVE_BOLD_REGEX, replacement: '' },
-            { regex: REMOVE_ITALICS_REGEX, replacement: '' },
-            { regex: REMOVE_LINE_BREAKS_REGEX, replacement: ' ' },
-            { regex: COLLAPSE_SPACES_REGEX, replacement: ' ' }
-        ];
-        for (const { regex, replacement } of regexReplacements) {
-            textContent = textContent.replace(regex, replacement);
-        }
-        return textContent;
-    }
-
     override async process(): Promise<void> {
-        const markdownFile = this.pathService.getMarkdownFile();
+        const outputRecognizedTextFile = this.pathService.getOutputRecognizedTextFile();
 
-        const textContent = await markdownFile.readContentAsString('utf-8');
+        const textContent = await outputRecognizedTextFile.readContentAsString('utf-8');
         const sections = this.splitText(textContent);
+
+        const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
         for (let i = 0; i < sections.length; i++) {
             const enhancedText = await this.enhanceText(sections[i]);
             if (!enhancedText) break;
-            await markdownFile.appendContent(`${enhancedText}\n\n`);
-            await this.convertTextToAudio(enhancedText, i + 1, this.pathService.getOutputAudioDirectory().basePath);;
+
+            const innerSections = this.splitText(enhancedText);
+            for (let j = 0; j < innerSections.length; j++) {
+                await enhancedTextFile.appendContent(`${innerSections[j]}\n\n`);
+                await this.convertTextToAudio(innerSections[j], i + 1, this.pathService.getOutputAudioDirectory().basePath);;
+            }
         }
-        this.logger.info(`${MESSAGES.enhancementComplete} ${this.options.outputRecognizedTextFile}`);
+        this.logger.info(`${MESSAGES.enhancementComplete} ${this.options.outputEnhancedTextFile}`);
     }
 
     
@@ -125,7 +117,7 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
         const response = await this.openai.audio.speech.create({
             model: TTS_MODEL,
             input: text,
-            voice: TTS_VOICE,
+            voice: (index  % 2 == 0 ? TTS_VOICE_MALE : TTS_VOICE_FEMALE),
             response_format: TTS_RESPONSE_FORMAT,
         });
 

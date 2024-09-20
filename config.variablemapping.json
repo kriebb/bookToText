@@ -45,6 +45,11 @@
         "envVarName": "OUTPUT_RECOGNIZED_FILE"
     },
     {
+        "optionName": "outputEnhancedTextFile",
+        "argumentName": "outputEnhancedTextFile",
+        "envVarName": "OUTPUT_ENHANCED_FILE"
+    },
+    {
         "optionName": "outputTextFileDirectory",
         "argumentName": "outputTextFileDirectory",
         "envVarName": "OUTPUT_FILE_DIR"

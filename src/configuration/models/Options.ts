@@ -59,6 +59,11 @@ export class Options {
     outputRecognizedTextFile: string;
 
         /**
+     * Path to the file where recognized text will be output.
+     * @example "/path/to/output/enhanced.txt"
+     */
+    outputEnhancedTextFile: string;
+        /**
      * Path to the file where text will be output from the image.
      * @example "/path/to/output.txt"
      */
@@ -129,6 +134,8 @@ export class Options {
         this.shouldConvertMarkdownToAudio = true;
         this.outputTextFileDirectory = "/path/to/output/text";
         this.outputRecognizedTextFile = "/path/to/output/recognized.txt";
+        this.outputEnhancedTextFile = "/path/to/output/enhanced.txt";
+
         this.shouldProcessImages = true;
         this.shouldProcessImagesWithTesseract = true;
         this.shouldMergeTextFiles = true;
