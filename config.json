@@ -10,7 +10,7 @@
 
     "shouldProcessImages": false,
     "shouldProcessImagesWithTesseract": false,
-    "shouldMergeTextFiles": true,
+    "shouldMergeTextFiles": false,
     "inputImagesDirectory": "./input/images",
     "prompts": {
         "enhanceText":{

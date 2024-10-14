@@ -9,6 +9,7 @@ import OpenAI from 'openai';
 import path from 'path';
 import * as fs from 'fs-extra';
 import { BaseProcessor } from './BaseProcessor';
+import { MarkdownFile } from '../fileSystem/models/MarkdownFile';
 
 
 @injectable()
@@ -24,26 +25,47 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
     }
 
     override async process(): Promise<void> {
-        const outputRecognizedTextFile = this.pathService.getOutputRecognizedTextFile();
-
-        const textContent = await outputRecognizedTextFile.readContentAsString('utf-8');
-        const sections = this.splitText(textContent);
-
-        const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
-        for (let i = 0; i < sections.length; i++) {
-            const enhancedText = await this.enhanceText(sections[i]);
-            if (!enhancedText) break;
-
-            const innerSections = this.splitText(enhancedText);
-            for (let j = 0; j < innerSections.length; j++) {
-                await enhancedTextFile.appendContent(`${innerSections[j]}\n\n`);
-                await this.convertTextToAudio(innerSections[j], i + 1, this.pathService.getOutputAudioDirectory().basePath);;
-            }
+        if (this.pathService.existsOutputEnhancedTextFile()) {
+            await this.processEnhancedTextFile();
+        } else {
+            await this.processRecognizedTextFile();
         }
         this.logger.info(`${MESSAGES.enhancementComplete} ${this.options.outputEnhancedTextFile}`);
     }
-
     
+    private async processEnhancedTextFile(): Promise<void> {
+        let audioFileNumber = 1;
+        const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
+        const enhancedText = await enhancedTextFile.readContentAsString('utf-8');
+        const innerSections = this.splitText(enhancedText);
+    
+        await this.processSections(innerSections, audioFileNumber, enhancedTextFile);
+    }
+    
+    private async processRecognizedTextFile(): Promise<void> {
+        const outputRecognizedTextFile = this.pathService.getOutputRecognizedTextFile();
+        const textContent = await outputRecognizedTextFile.readContentAsString('utf-8');
+        const sections = this.splitText(textContent);
+        let audioFileNumber = 1;
+        const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
+    
+        for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
+            const enhancedText = await this.enhanceText(sections[sectionIndex]);
+            if (!enhancedText) break;
+    
+            const innerSections = this.splitText(enhancedText);
+            await enhancedTextFile.appendContent(`${innerSections.join('\n\n')}\n\n`);
+            await this.processSections(innerSections, audioFileNumber, enhancedTextFile);
+        }
+    }
+    
+    private async processSections(sections: string[], audioFileNumber: number, enhancedTextFile: MarkdownFile): Promise<void> {
+        for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
+            await this.convertTextToAudio(sections[sectionIndex], audioFileNumber, this.pathService.getOutputAudioDirectory().basePath);
+            audioFileNumber++;
+        }
+    }
+
     splitText = (text: string): string[] => {
         const maxLength = MAX_OPENAI_MODEL_LENGTH - MAX_TOKENS_BUFFER;
 
@@ -63,7 +85,7 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
         }
         return result;
     }
-    
+
     async enhanceText(text: string): Promise<string | undefined> {
         const systemPrompt = this.options.prompts?.enhanceText?.system;
         if (!systemPrompt) {
@@ -112,16 +134,19 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
             return undefined;
         }
     }
-    
+
     async convertTextToAudio(text: string, index: number, outputDir: string): Promise<void> {
         const response = await this.openai.audio.speech.create({
             model: TTS_MODEL,
             input: text,
-            voice: (index  % 2 == 0 ? TTS_VOICE_MALE : TTS_VOICE_FEMALE),
+            voice: (index % 2 == 0 ? TTS_VOICE_MALE : TTS_VOICE_FEMALE),
             response_format: TTS_RESPONSE_FORMAT,
         });
 
         const buffer = Buffer.from(await response.arrayBuffer());
-        await fs.promises.writeFile(path.join(outputDir, `part-${index}.mp3`), buffer);
+
+        const formattedIndex = index.toString().padStart(4, '0');
+
+        await fs.promises.writeFile(path.join(outputDir, `part-${formattedIndex}.mp3`), buffer);
     }
 }

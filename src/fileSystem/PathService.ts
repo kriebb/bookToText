@@ -26,6 +26,10 @@ export class PathService {
     getOutputEnhancedTextFile(): MarkdownFile {
         return new MarkdownFile( this.options.outputEnhancedTextFile, FILE_EXTENSIONS.md, this.options.outputBaseDirectory);
     }
+
+    existsOutputEnhancedTextFile(): boolean {
+        return fs.pathExistsSync(this.getOutputEnhancedTextFile().fullPath);
+    }
     async getMarkdownFiles(filter:string):Promise<MarkdownFile[]> {
         return this.readFilesFromDirectory(MarkdownFile,this.getOutputMarkdownFileDirectory().basePath, filter);
     }
