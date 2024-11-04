@@ -10,7 +10,6 @@ import { ImageProcessor } from './ImageProcessor';
 import { FILE_EXTENSIONS, HEADER_CONTENT_TYPE, MAX_OPENAI_MODEL_LENGTH, MESSAGES } from '../configuration/Constants';
 import MarkdownIt from 'markdown-it';
 import { OCRImageFile } from './OCRImageFile';
-
 @injectable()
 export class OpenAIImageProcessor extends ImageProcessor implements BaseProcessor {
     constructor(
@@ -69,6 +68,8 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
         const imageFiles = await this.pathService.readInputImages();
         let previousContext: any = null;
         for (const imageFile of imageFiles) {
+            if (imageFile.extension == '') continue;
+
             const xhtmlFile = this.pathService.getImageOutputFile(imageFile.name, FILE_EXTENSIONS.markdownXHTML); //already processed
             if (await xhtmlFile.exists()) {
                 this.logger.info(MESSAGES.fileExistsSkip.replace('{imageFile}', imageFile.name));
@@ -82,13 +83,13 @@ export class OpenAIImageProcessor extends ImageProcessor implements BaseProcesso
                     await this.createJpeg(imageFile, jpgImageFile);
                 }
 
-                    const pageContext = await this.analyzeImage(jpgImageFile, previousContext);
-                    if (!pageContext) break;
+                const pageContext = await this.analyzeImage(jpgImageFile, previousContext);
+                if (!pageContext) break;
 
-                    const markdownContent = this.generateMarkdown(pageContext);
-                    await xhtmlFile.writeString(markdownContent);
-                    previousContext = pageContext;
-                
+                const markdownContent = this.generateMarkdown(pageContext);
+                await xhtmlFile.writeString(markdownContent);
+                previousContext = pageContext;
+
             }
         }
     }

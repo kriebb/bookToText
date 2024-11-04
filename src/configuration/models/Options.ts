@@ -46,6 +46,7 @@ export class Options {
      */
     shouldMergeTextFiles: boolean;
 
+    extractPdfText: boolean;
     /**
      * Flag to indicate whether to convert markdown to audio.
      * @example true
@@ -58,16 +59,16 @@ export class Options {
      */
     outputRecognizedTextFile: string;
 
-        /**
-     * Path to the file where recognized text will be output.
-     * @example "/path/to/output/enhanced.txt"
-     */
+    /**
+ * Path to the file where recognized text will be output.
+ * @example "/path/to/output/enhanced.txt"
+ */
     outputEnhancedTextFile: string;
-        /**
-     * Path to the file where text will be output from the image.
-     * @example "/path/to/output.txt"
-     */
-        outputTextFileDirectory: string;
+    /**
+ * Path to the file where text will be output from the image.
+ * @example "/path/to/output.txt"
+ */
+    outputTextFileDirectory: string;
 
     /**
      * Flag to indicate whether to process images.
@@ -86,7 +87,7 @@ export class Options {
      * @example "/path/to/input/images"
      */
     inputImagesDirectory: string;
-
+    inputPdfFile: string;
     /**
      * Prompts for various operations.
      */
@@ -136,10 +137,12 @@ export class Options {
         this.outputRecognizedTextFile = "/path/to/output/recognized.txt";
         this.outputEnhancedTextFile = "/path/to/output/enhanced.txt";
 
+        this.extractPdfText = true;
         this.shouldProcessImages = true;
         this.shouldProcessImagesWithTesseract = true;
         this.shouldMergeTextFiles = true;
         this.inputImagesDirectory = "/path/to/input/images";
+        this.inputPdfFile = "/path/to/input.pdf";
         this.prompts = {
             enhanceText: {
                 system: "Enhance the following text:",

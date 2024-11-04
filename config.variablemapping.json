@@ -30,6 +30,11 @@
         "envVarName": "MERGE_AUDIO_FILES"
     },
     {
+        "optionName": "shouldExtractTextFromPdf",
+        "argumentName": "shouldExtractTextFromPdf",
+        "envVarName": "EXTRACT_PDF_TEXT"
+    },
+    {
         "optionName": "shouldMergeTextFiles",
         "argumentName": "shouldMergeTextFiles",
         "envVarName": "MERGE_TEXT_FILES"
@@ -68,6 +73,11 @@
         "optionName": "inputImagesDirectory",
         "argumentName": "inputImagesDirectory",
         "envVarName": "INPUT_IMAGES_DIR"
+    },
+    {
+        "optionName": "inputPdfFile",
+        "argumentName": "inputPdfFile",
+        "envVarName": "INPUT_PDF_FILE"
     },
     {
         "optionName": "prompts.enhanceText.system",

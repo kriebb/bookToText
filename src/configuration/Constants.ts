@@ -3,6 +3,7 @@ export const MESSAGES = {
   noUserPromptEnhanceText: 'No user prompt provided for enhancing text. Skipping enhancing',
   maxTokensZero: 'Max tokens is 0. Skipping enhancing',
   errorOpenAiApiCall: 'Error during OpenAI API call:',
+  pdfToImageProcessorError: 'Error during pdf to image processing:',
   imagesProcessedUsingOpenAi: 'Images processed using openAI',
   imagesProcessedUsingTesseract: 'Images processed using Tesseract',
   enhancementComplete: 'Enhanced sections written to ',
@@ -14,7 +15,9 @@ export const MESSAGES = {
   processingImages: 'Processing images using OpenAI',
   notProcessingImagesWithOpenAI: 'Not processing images with OpenAI',
   processingImagesWithTesseract: 'Processing images using Tesseract',
+  processingExtratTextFromPdf: 'Processing Pdf for extracting Text',
   notProcessingImagesWithTesseract: 'Not processing images with Tesseract',
+  notProcessingExtratTextFromPdf: 'Not processing extract text from pdf',
   convertingMarkdownToAudio: 'Converting markdown to audio',
   notConvertingMarkdownToAudio: 'Not converting markdown to audio',
   mergingAudioFiles: 'Merging audio files',
@@ -23,6 +26,7 @@ export const MESSAGES = {
   errorMergingAudioFiles: 'Error during merging audio files:',
   processingTextFiles: 'Merging textfiles',
   notProcessingTextFiles: 'Not merging text files',
+  errorExtractingPdfToHtml: 'Error during extracting pdf to html:',
 };
 export const TTS_MODEL = 'tts-1';
 export const TTS_VOICE_MALE = 'alloy';

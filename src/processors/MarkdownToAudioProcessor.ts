@@ -32,38 +32,40 @@ export class MarkdownToAudioProcessor extends BaseProcessor {
         }
         this.logger.info(`${MESSAGES.enhancementComplete} ${this.options.outputEnhancedTextFile}`);
     }
-    
+
     private async processEnhancedTextFile(): Promise<void> {
         let audioFileNumber = 1;
         const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
         const enhancedText = await enhancedTextFile.readContentAsString('utf-8');
         const innerSections = this.splitText(enhancedText);
-    
+
         await this.processSections(innerSections, audioFileNumber, enhancedTextFile);
     }
-    
+
     private async processRecognizedTextFile(): Promise<void> {
         const outputRecognizedTextFile = this.pathService.getOutputRecognizedTextFile();
         const textContent = await outputRecognizedTextFile.readContentAsString('utf-8');
         const sections = this.splitText(textContent);
         let audioFileNumber = 1;
         const enhancedTextFile = this.pathService.getOutputEnhancedTextFile();
-    
+
         for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
             const enhancedText = await this.enhanceText(sections[sectionIndex]);
             if (!enhancedText) break;
-    
+
             const innerSections = this.splitText(enhancedText);
             await enhancedTextFile.appendContent(`${innerSections.join('\n\n')}\n\n`);
-            await this.processSections(innerSections, audioFileNumber, enhancedTextFile);
+            audioFileNumber = await this.processSections(innerSections, audioFileNumber, enhancedTextFile);
+            audioFileNumber++;
         }
     }
-    
-    private async processSections(sections: string[], audioFileNumber: number, enhancedTextFile: MarkdownFile): Promise<void> {
+
+    private async processSections(sections: string[], audioFileNumber: number, enhancedTextFile: MarkdownFile): Promise<number> {
         for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
             await this.convertTextToAudio(sections[sectionIndex], audioFileNumber, this.pathService.getOutputAudioDirectory().basePath);
             audioFileNumber++;
         }
+        return audioFileNumber;
     }
 
     splitText = (text: string): string[] => {
